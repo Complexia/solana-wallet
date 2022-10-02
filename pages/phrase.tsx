@@ -6,6 +6,7 @@ import { useGlobalState } from "../context";
 import { LoadingOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import * as Bip39 from "bip39";
+import { Keypair } from "@solana/web3.js";
 
 // Import Bip39 to generate a phrase and convert it to a seed:
 
@@ -28,15 +29,19 @@ const Phrase: NextPage = () => {
     // This line saves the mnemonic phrase to context state so we can display it for the wallet user to copy
     setMnemonic(generatedMnemonic);
 
+
+
     // (c) convert the mnemonic to seed bytes and make sure it's 32-bytes (Hint: console log the seed to see how many bytes you have vs how many you need)
     // Documentation Reference: https://github.com/bitcoinjs/bip39
-    const seed = new Uint8Array();
+    const seed = Bip39.mnemonicToSeedSync(generatedMnemonic).slice(0, 32);
+
+    const newAccount = Keypair.fromSeed(seed);
 
     // (d) use the seed to generate a new account (i.e. a new keypair)
     // Documentation Reference:
     //   https://solana-labs.github.io/solana-web3.js/classes/Keypair.html
     //   https://solana-labs.github.io/solana-web3.js/classes/Keypair.html#fromSeed
-    const newAccount = null;
+
 
     // This line sets the account to context state so it can be used by the app
     setAccount(newAccount);
