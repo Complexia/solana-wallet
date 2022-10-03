@@ -20,30 +20,15 @@ const Phrase: NextPage = () => {
   const router = useRouter();
 
   useEffect(() => {
-    // *Step 2*: implement a function that generates a mnemonic when the page renders, and uses it to create a wallet (i.e. account)
-    // (a) review the import guidance on lines 9 and 11
-    // (b) generate a mnemonic phrase by importing Bip39 and then implementing the appropriate method on the imported Bip39 instance
-    // Documentation Reference: https://github.com/bitcoinjs/bip39
+
     const generatedMnemonic = Bip39.generateMnemonic();
 
-    // This line saves the mnemonic phrase to context state so we can display it for the wallet user to copy
     setMnemonic(generatedMnemonic);
 
-
-
-    // (c) convert the mnemonic to seed bytes and make sure it's 32-bytes (Hint: console log the seed to see how many bytes you have vs how many you need)
-    // Documentation Reference: https://github.com/bitcoinjs/bip39
     const seed = Bip39.mnemonicToSeedSync(generatedMnemonic).slice(0, 32);
 
     const newAccount = Keypair.fromSeed(seed);
 
-    // (d) use the seed to generate a new account (i.e. a new keypair)
-    // Documentation Reference:
-    //   https://solana-labs.github.io/solana-web3.js/classes/Keypair.html
-    //   https://solana-labs.github.io/solana-web3.js/classes/Keypair.html#fromSeed
-
-
-    // This line sets the account to context state so it can be used by the app
     setAccount(newAccount);
   }, []);
 
